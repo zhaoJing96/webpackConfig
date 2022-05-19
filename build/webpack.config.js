@@ -3,47 +3,28 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 清除上次打包残留文件clean-webpack-plugin
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 拆分css
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 拆分css
 // const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin'); // 拆分多个css
 const Webpack = require('webpack');
 // let indexLess = new ExtractTextWebpackPlugin('index.less');
 // let indexCss = new ExtractTextWebpackPlugin('index.css');
+// const devMode = process.argv.indexOf('--mode=production') === -1;
+
+let mode = "development";
+if (process.env.NODE_ENV === 'production') {
+    mode = 'production'
+}
 
 module.exports = {
-    mode: 'development', // 开发模式
+    mode: mode,
     entry: {
         main: ['@babel/polyfill', path.resolve(__dirname, '../src/main.js')]
     }, // 入口文件
     output: {
-        filename: '[name].[hash:8].js', // 打包后的文件名称
-        path: path.resolve(__dirname, '../dist') // 打包后的目录
+        filename: '[name].[fullhash:8].js', // 打包后的文件名称
+        path: path.resolve(__dirname, '../dist'), // 打包后的目录
+        chunkFilename: 'js/[name].[fullhash:8].js'
     },
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, '../src')
-        }, // 配置别名
-        extensions: ["*", ".js", '.json']
-    },
-    devServer: {
-        port: 3000,
-        hot: true,
-        static: '../dist'
-    },
-    plugins: [
-        new CleanWebpackPlugin, // 清除上次打包残留文件
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../public/index.html'),
-            filename: 'index.html',
-            chunks: ['main'] // 与入口文件对应的模块名
-        }),
-        // new MiniCssExtractPlugin({
-        //     filename: '[name].[hash].css',
-        //     chunkFilename: '[id].css'
-        // }),
-        // indexCss,
-        // indexLess,
-        new Webpack.HotModuleReplacementPlugin()
-    ],
     module: {
         rules: [
             {
@@ -54,13 +35,12 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 },
-                exclude: /node_modules/
+                exclude: /node_modules/ // 不包括node_modules
             },
             {
                 test: /\.css$/,
                 use: [
-                    // MiniCssExtractPlugin.loader,
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         // 添加浏览器前缀
@@ -77,8 +57,7 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                    // MiniCssExtractPlugin.loader,
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
                         // 添加浏览器前缀
@@ -103,7 +82,7 @@ module.exports = {
                             fallback: {
                                 loader: 'file-loader',
                                 options: {
-                                    name: 'img/[name].[hash:8].[ext]'
+                                    name: 'img/[name].[fullhash:8].[ext]'
                                 }
                             }
                         }
@@ -120,7 +99,7 @@ module.exports = {
                             fallback: {
                                 loader: 'file-loader',
                                 options: {
-                                    name: 'media/[name].[hash:8].[ext]'
+                                    name: 'media/[name].[fullhash:8].[ext]'
                                 }
                             }
                         }
@@ -137,7 +116,7 @@ module.exports = {
                             fallback: {
                                 loader: 'file-loader',
                                 options: {
-                                    name: 'fonts/[name].[hash:8].[ext]'
+                                    name: 'fonts/[name].[fullhash:8].[ext]'
                                 }
                             }
                         }
@@ -145,5 +124,31 @@ module.exports = {
                 ]
             }
         ]
-    }
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, '../src')
+        }, // 配置别名
+        extensions: ["*", ".js", '.json'] // 扩展名顺序
+    },
+    plugins: [
+        // 清除上次打包残留文件
+        new CleanWebpackPlugin({
+            path: '../dist'
+        }),
+        //使用插件生成Html入口文件
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../public/index.html'),
+            filename: 'index.html', // 模板文件名
+            chunks: ['main'] // 与入口文件对应的模块名
+        }),
+        // 提取css
+        new MiniCssExtractPlugin({
+            filename: '[name].[fullhash].css',
+            chunkFilename: '[id].css'
+        }),
+        // indexCss,
+        // indexLess,
+        new Webpack.HotModuleReplacementPlugin()
+    ]
 }

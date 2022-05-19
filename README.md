@@ -145,3 +145,8 @@ module.exports = {
   }
 ~~~
 执行npm run dev这时候如果浏览器出现Vue开发环境运行成功，那么恭喜你，已经成功迈出了第一步。
+
+
+webpack v5版本 hash已被弃用，改名为fullhash
+
+uglifyjs-webpack-plugin 不支持新的 es6 语法，解决方法使用 terser-webpack-plugin 替换 uglifyjs-webpack-plugin。
