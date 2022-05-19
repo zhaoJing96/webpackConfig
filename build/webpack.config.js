@@ -40,6 +40,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
+                    // 将css文件提出来不能使用style-loader，需要使用mini-css-extract-plugin自己的loader
+                    // 作用将js中的css提取成单独文件
                     MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
@@ -57,6 +59,8 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
+                    // 将css文件提出来不能使用style-loader，需要使用mini-css-extract-plugin自己的loader
+                    // 作用将js中的css提取成单独文件
                     MiniCssExtractPlugin.loader,
                     'css-loader',
                     {
