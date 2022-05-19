@@ -30,7 +30,6 @@ module.exports = {
     plugins:[new CleanWebpackPlugin()]
 }
 ~~~
-
 ##### 引用CSS
 ~~~
 npm i -D style-loader css-loader
@@ -39,7 +38,6 @@ npm i -D style-loader css-loader
 ~~~
 npm i -D less less-loader
 ~~~
-
 ~~~
 // webpack.config.js
 module.exports = {
@@ -58,9 +56,7 @@ module.exports = {
     }
 }
 ~~~
-
 postcss-loader为css添加浏览器前缀，配合autoprefixer使其生效  
-
 ~~~
 // webpack.config.js
 module.exports = {
@@ -85,8 +81,6 @@ module.exports = {
     }
 }
 ~~~
-
-
 ##### 用babel转义js文件
 ~~~
 npm i -D babel-loader @babel/preset-env @babel/core
@@ -114,12 +108,10 @@ module.exports = {
     }
 }
 ~~~
-
 babel-loader只将ES6/7/8转换成ES5语法，不会对新api转换（promise、set、map等）,babel/polyfill可转换新api
 ~~~
 npm i @babel/polyfill
 ~~~
-
 ~~~
 // webpack.config.js
 const path = require('path')
@@ -127,7 +119,6 @@ module.exports = {
     entry: ["@babel/polyfill",path.resolve(__dirname,'../src/index.js')],    // 入口文件
 }
 ~~~
-
 ##### 配置webpack-dev-server进行热更新
 ~~~
 npm i -D webpack-dev-server
@@ -146,7 +137,6 @@ module.exports = {
   ]
 }
 ~~~
-
 ##### 配置打包命令
 ~~~
 "scripts": {
@@ -154,5 +144,4 @@ module.exports = {
     "build": "webpack --config build/webpack.config.js"
   }
 ~~~
-
 执行npm run dev这时候如果浏览器出现Vue开发环境运行成功，那么恭喜你，已经成功迈出了第一步。
