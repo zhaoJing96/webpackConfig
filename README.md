@@ -146,7 +146,6 @@ module.exports = {
 ~~~
 执行npm run dev这时候如果浏览器出现Vue开发环境运行成功，那么恭喜你，已经成功迈出了第一步。
 
-
 ##### webpack v5版本 hash已被弃用，改名为fullhash
 
 ##### copy-webpack-plugin 拷贝静态资源
@@ -168,6 +167,7 @@ module.exports = {
 ##### 压缩js、css
 ###### 压缩css: css-minimizer-webpack-plugin
 optimize-css-assets-webpack-plugin 在webpack 5中已不在友好支持.
+css-minimizer-webpack-plugin 就像 optimize-css-assets-webpack-plugin 一样，但在 source maps 和 assets 中使用查询字符串会更加准确，支持缓存和并发模式下运行
 ###### 压缩js: terser-webpack-plugin
 由于老版本uglifyjs-webpack-plugin 不支持新的 es6 语法,且不在更新，解决方法使用 terser-webpack-plugin 替换 uglifyjs-webpack-plugin。
 webpack v5 或以上版本，你不需要安装这个插件。webpack v5 ⾃带最新的terser-webpack-plugin。如果你使用的是 webpack v5 或更高版本，同时希望自定义配置，那么仍需要安装 terser-webpack-plugin。如果使⽤ webpack v4，则必须安装terser-webpack-plugin V4的版本。
