@@ -14,6 +14,23 @@ let mode = "development";
 if (process.env.NODE_ENV === 'production') {
     mode = 'production'
 }
+// css loader配置
+const commonCssLoader = [
+    // 将css文件提出来不能使用style-loader，需要使用mini-css-extract-plugin自己的loader
+    // 作用将js中的css提取成单独文件
+    MiniCssExtractPlugin.loader,
+    'css-loader',
+    {
+        // 添加浏览器前缀
+        loader: 'postcss-loader',
+        options: {
+            postcssOptions: {
+                ident: 'postcss',
+                plugins: [require('autoprefixer')]
+            }
+        }
+    }
+];// 从右向左解析原则
 
 module.exports = {
     mode: mode,
@@ -39,42 +56,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    // 将css文件提出来不能使用style-loader，需要使用mini-css-extract-plugin自己的loader
-                    // 作用将js中的css提取成单独文件
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        // 添加浏览器前缀
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                ident: 'postcss',
-                                plugins: [require('autoprefixer')]
-                            }
-                        }
-                    }
-                ]// 从右向左解析原则
+                use: [...commonCssLoader]// 从右向左解析原则
             },
             {
                 test: /\.less$/,
-                use: [
-                    // 将css文件提出来不能使用style-loader，需要使用mini-css-extract-plugin自己的loader
-                    // 作用将js中的css提取成单独文件
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        // 添加浏览器前缀
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                ident: 'postcss',
-                                plugins: [require('autoprefixer')]
-                            }
-                        }
-                    },
-                    'less-loader'
-                ] // 从右向左解析原则，postcss-loader为css添加浏览器前缀
+                use: [...commonCssLoader, 'less-loader'] // 从右向左解析原则
             },
             {
                 test: /\.(jpe?g|png|gif)$/i, // 图片文件
