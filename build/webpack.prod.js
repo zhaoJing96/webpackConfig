@@ -27,12 +27,13 @@ module.exports = WebpackMerge.merge(webpackConfig, {
         new Webpack.DefinePlugin({
             DEV: JSON.stringify('production')
         }),
-        new CopyWebpackPlugin([{
+        // 拷贝静态资源
+        new CopyWebpackPlugin({
             patterns: [{
                 from: path.resolve(__dirname, '../public'),
-                to: path.resolve(__dirname, '../dist')
+                to: 'static' // 到哪里
             }]
-        }])
+        })
     ],
     optimization: {
         minimizer: [
