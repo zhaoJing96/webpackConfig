@@ -1,6 +1,15 @@
 # webpackConfig
 webpack5基础配置打包
 
+##### webpack配置中需要理解几个核心的概念Entry 、Output、Loaders 、Plugins、 Chunk。
+Entry：指定webpack开始构建的入口模块，从该模块开始构建并计算出直接或间接依赖的模块或者库;
+Output：告诉webpack如何命名输出的文件以及输出的目录;
+Loaders：由于webpack只能处理javascript，所以我们需要对一些非js文件处理成webpack能够处理的模块，比如sass文件;
+Plugins：Loaders将各类型的文件处理成webpack能够处理的模块，plugins有着很强的能力。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量。但也是最复杂的一个。比如对js文件进行压缩优化的UglifyJsPlugin插件;
+Chunk：coding split的产物，我们可以对一些代码打包成一个单独的chunk，比如某些公共模块，去重，更好的利用缓存。或者按需加载某些功能模块，优化加载时间。
+
+
+
 ##### 配置html模板
 js文件打包好,在html文件中引入打包好的js,通过html-webpack-plugin插件实现。
 多个入口文件则生成多个多入口文件如何开发实例来解决问题。
@@ -168,6 +177,7 @@ module.exports = {
 ###### 压缩css: css-minimizer-webpack-plugin
 optimize-css-assets-webpack-plugin 在webpack 5中已不在友好支持.
 css-minimizer-webpack-plugin 就像 optimize-css-assets-webpack-plugin 一样，但在 source maps 和 assets 中使用查询字符串会更加准确，支持缓存和并发模式下运行
+
 ###### 压缩js: terser-webpack-plugin
 由于老版本uglifyjs-webpack-plugin 不支持新的 es6 语法,且不在更新，解决方法使用 terser-webpack-plugin 替换 uglifyjs-webpack-plugin。
 webpack v5 或以上版本，你不需要安装这个插件。webpack v5 ⾃带最新的terser-webpack-plugin。如果你使用的是 webpack v5 或更高版本，同时希望自定义配置，那么仍需要安装 terser-webpack-plugin。如果使⽤ webpack v4，则必须安装terser-webpack-plugin V4的版本。
